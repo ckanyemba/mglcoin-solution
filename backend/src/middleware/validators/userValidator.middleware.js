@@ -16,22 +16,6 @@ exports.createUserSchema = [
             }
             next()
         },
-    body('email_verify')
-        .exists()
-        .withMessage('Email verification code is required')
-        .isNumeric()
-        .withMessage('Email verification code must contain numeric characters')
-        .isLength({min: 4 })
-        .withMessage('Invite code should contain 4 characters')
-        .isLength({max: 4 })
-        .withMessage('Invite code should contain 4 characters'),
-        function(req,res,next) { 
-            var errorValidation = validationResult(req);
-            if ( errorValidation.errors.length !== 0 ) {
-                return res.send({response:false, message:errorValidation.errors[0].msg})
-            }
-            next()
-        },
     body('password')
         .exists()
         .withMessage('Password is required')

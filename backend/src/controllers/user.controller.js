@@ -15,6 +15,15 @@ class UserController {
             next(error)
         }
     }
+    verifyInvite = async (req, res, next) => {
+        try {
+            const result = await UserService.verifyInvite(req.body.email, (req.body.locale || "En"));
+            res.send(result)
+        } catch (error) {
+            next(error)
+        }
+    }
+
 
     getAllUsers = async (req, res, next) => {
         try {

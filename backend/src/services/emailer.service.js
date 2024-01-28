@@ -8,18 +8,15 @@ i18n.configure({
 
 module.exports = {
     deliverEmail: function (dest, subject, body) {
-        var transport = nodemailer.createTransport({
-            service: process.env.EMAIL_SERVICE,
-            //host: process.env.EMAIL_HOST,
-            //port: Number(process.env.EMAIL_PORT),
+        const transport = nodemailer.createTransport({
+            host: process.env.EMAIL_HOST,
             auth: {
-                //user: process.env.EMAIL_USER,
                 user: process.env.EMAIL,
                 pass: process.env.EMAIL_PWD
             }
         });
     
-        var mailOptions = {
+        const  mailOptions = {
             from: process.env.EMAIL,
             to: dest,
             subject: subject,

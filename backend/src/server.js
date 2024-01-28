@@ -42,7 +42,7 @@ app.use(
     })
   );
 
-const port = Number(process.env.PORT || 3000);
+const port = Number(process.env.PORT || 5000);
 app.use(cookieParser());
 
 app.use(`/api/users/`, userRouter);

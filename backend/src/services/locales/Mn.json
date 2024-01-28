@@ -10,5 +10,6 @@
 	"MGL Exchange - Wallet Created Sucessfully": "MGL бирж: Түрийвчийг амжилттай үүсгэсэн",
 	"Your MGL Exchange wallet has been created sucessfully. Thank you.": "Таны MGL Exchange түрийвч амжилттай үүсгэгдлээ. Баярлалаа.",
 	"MGL Exchange - Password Reset": "MGL бирж: Нууц үг шинэчлэх",
-	"To reset your password, please click on this link: %s": "Нууц үгээ шинэчлэх бол энэ холбоос дээр дарна уу: %s"
+	"To reset your password, please click on this link: %s": "Нууц үгээ шинэчлэх бол энэ холбоос дээр дарна уу: %s",
+	"MGL Exchange: Email Invitation": "MGL Exchange: Email Invitation"
 }

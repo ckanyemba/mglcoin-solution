@@ -1,6 +1,7 @@
 const UserModel = require('../models/user.model');
 const WalletModel = require('../models/wallet.model');
 const EmailVerifyModel = require('../models/emailVerify.model');
+const InviteVerifyModel = require('../models/inviteVerify.model');
 const ManageUserModel = require('../models/manageUser.model');
 const HttpException = require('../utils/HttpException.utils');
 const { validationResult } = require('express-validator');
@@ -19,16 +20,22 @@ dotenv.config();
 
 class UserService {
     static sendEmail(email, uniqueString, emailType) {
-        var transport = nodemailer.createTransport({
-            //service: process.env.EMAIL_SERVICE,
-            host: process.env.EMAIL_HOST,
-            port: Number(process.env.EMAIL_PORT),
+        const transport = nodemailer.createTransport({
+            host: 'smtp.zoho.com',
+            port: 465, // use 465 for SSL
+            secure: true, // use true for 465 port
             auth: {
-                user: process.env.EMAIL_USER,
+                user: process.env.EMAIL,
                 pass: process.env.EMAIL_PWD
             }
         });
-        var mailOptions = {}
+        const mailOptions = {
+            from: process.env.EMAIL,
+            to: email,
+            subject: 'Email Verification',
+            text: 'Click the following CODE to verify your email:' + uniqueString,
+        };
+
         if (emailType === EmailType.EmailVerify) {
             mailOptions = {
                 from: process.env.EMAIL,
@@ -53,6 +60,7 @@ class UserService {
             }
         });
     }
+    
 
     static makeRandomString(length) {
         let result = "";
@@ -92,6 +100,38 @@ class UserService {
             }
         }
         console.log(verificationCode)
+        return {response: true, message: "Success. Email Verification Code was send to your Email address.", data:null}
+    }
+
+    static async verifyInvite(email, locale) {
+        if (!this.emailValidation(email)) {
+            return {response: false, message: "Invitation validation failed.", data:null}
+        }
+        let invitationCode = this.makeRandomString(4);
+
+        const subject = i18n.__({phrase: "MGL Exchange: Email Invitation", locale: locale})
+        const body = i18n.__({phrase: "Your Email verification code is %s", locale: locale}, invitationCode);
+        emailService.deliverEmail(email, subject, body)
+        
+        let prev = await InviteVerifyModel.findOne({email:email});
+        if (prev) {
+            let result = await InviteVerifyModel.update({invite_code:invitationCode}, prev.id);
+            if (!result) {
+                return {response: false, message: "An error was caused during the Email Verification Code generation.", data:null}
+            }
+            if (result.error) {
+                return {response: false, message: result.error, data:null}
+            }
+        } else {
+            let result = await InviteVerifyModel.create({email:email, invite_code:invitationCode})
+            if (!result) {
+                return {response: false, message: "An error was caused during the Email Verification Code generation.", data:null}
+            }
+            if (result.error) {
+                return {response: false, message: result.error, data:null}
+            }
+        }
+        console.log(invitationCode)
         return {response: true, message: "Success. Email Verification Code was send to your Email address.", data:null}
     }
 
@@ -249,8 +289,10 @@ class UserService {
         if (checker) {
             return {response:false, message:"This Email already in use", data:null}
         }
+        /*
         //check email verification
         let verifier = await EmailVerifyModel.findOne({email:rawData.email});
+        
         if (!verifier) {
             return {response:false, message:"Please receive and resend the Email verification code.", data:null}
         }
@@ -258,12 +300,15 @@ class UserService {
             return {response:false, message:"Email verification code is wrong.", data:null}
         }
         //check invite code
+        
         if (parseInt(rawData.invite_code) !== 0) {
             let inviter = await UserModel.findOne({id:parseInt(rawData.invite_code)});
             if (!inviter) {
                 return {response:false, message:"Invite code wrong", data:null}
             }
         }
+
+        */
         
         // user register
         rawData.role = Role.General;
