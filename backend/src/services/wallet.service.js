@@ -11,6 +11,7 @@ const testTokenList = require('../utils/polygon_testnet.json');
 const {BNB_ADDRESS, COIN_AMOUNT, ADMIN_GAS_LIMIT, ADMIN_GAS_PRICE} = require('../utils/constants');
 const emailService = require('./emailer.service');
 const i18n = require('i18n');
+const { default: axios } = require('axios');
 
 class WalletService {
     constructor() {
@@ -41,6 +42,8 @@ class WalletService {
 
         return {response:true, message:"success", data:{publicKey:wallet.publickey, privateKey: privateKey}}
     }
+
+  
 
     static async accessWalletWithPrivateKey(rawData, userId) {
         rawData.privateKey = new Wallet().decrypt(rawData.privateKey)      
@@ -319,6 +322,51 @@ class WalletService {
             emailService.deliverEmail(receiver.email, recvSubject, recvBody);
         }
         return {response:true, message:"Success", data:null}
+    }
+
+    static async fetchData() {
+        try {
+            // Fetch top tokens
+
+            const responseTokens = await axios.get(
+                'https://api.coingecko.com/api/v3/coins/markets',
+                {
+                    params: {
+                        vs_currency: 'usd',
+                        ids: 'ethereum',
+                    },
+                }
+            );
+
+            if (responseTokens.data && responseTokens.data.length > 0) {
+                const ethData = responseTokens.data[0];
+
+                // Updata coinData for Ethereum
+                let initCoinData = [];
+                initCoinData.push({
+                    name: 'ETH',
+                    price:ethData.current.price,
+                    percent: etjhData.price_change_percentage_24h,
+                });
+
+                // Fetch other top tokens
+                const otherTokens = await TopTokenModel.find();
+                for (let i = 0; i < otherTokens.length; i++) {
+                    initCoinData.push({
+                        name: otherTokens[i].symbol,
+                        price: otherTokens[i].daily_percent,
+                    });
+                }
+
+                // Set the state with the fetched data
+                setCoinData(initCoinData);
+
+            } else {
+                // Handle no response or empty data
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
     }
 
     static async getTransaction(rawData, userId) {
