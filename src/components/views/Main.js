@@ -108,7 +108,9 @@ function Main(props) {
                   amount1={props.coinData[3].price}
                 />
               </div>
+              
             </motion.div>
+            
           </div>
         </div>
       ) : (
