@@ -14,27 +14,13 @@ node -v
 ```
 
 node src/server.js
-
-
 ```
-## Installation
-
-### Node.js
+npm install
 ```
-Make sure you have Node.js installed. If not, you can download it from [nodejs.org](https://nodejs.org/).
-```
-To verify if Node.js is installed, run the following command in your terminal:
-
-```
-node -v
-16.x
+### FRONTEND
 ```
 
-node src/server.js
-
-```
-
-npm start or yarn start
+npm  run client
 Runs the app in development mode.
 Open http://localhost:3000 to view it in the browser.
 
