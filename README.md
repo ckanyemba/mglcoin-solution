@@ -17,9 +17,30 @@ node src/server.js
 
 
 ```
+## Installation
+
+### Node.js
+```
+Make sure you have Node.js installed. If not, you can download it from [nodejs.org](https://nodejs.org/).
+```
+To verify if Node.js is installed, run the following command in your terminal:
+
+```
+node -v
+16.x
+```
+
+node src/server.js
 
 ```
 
+npm start or yarn start
+Runs the app in development mode.
+Open http://localhost:3000 to view it in the browser.
+
+The page will automatically reload if you make changes to the code.
+You will see the build errors and lint warnings in the console.
+```
 
 ### Resolve the login and Register issue
 
