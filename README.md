@@ -3,32 +3,27 @@
 ## Installation
 
 ### Node.js
-
+```
 Make sure you have Node.js installed. If not, you can download it from [nodejs.org](https://nodejs.org/).
-
+```
 To verify if Node.js is installed, run the following command in your terminal:
 
-```bash
+```
 node -v
 16.x
+```
 
 node src/server.js
 
+
+```
+
+```
 
 
 ### Resolve the login and Register issue
 
 ![45](https://github.com/ckanyemba/mglcoin-solution/assets/95967301/22521ab4-6a9d-42c8-aa64-93ddd5824619)
-
-
-
-
-
-
-
-
-
-
 
 
 
