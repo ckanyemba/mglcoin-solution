@@ -2,9 +2,13 @@
   "name": "mysql-node-express",
   "version": "1.0.0",
   "description": "",
-  "main": "src/server.js",
+  "main": "api/index.js",
+  "type": "module",
+  "engines": {
+    "node": "v16.20.2"
+  },
   "scripts": {
-    "start": "node src/server.js",
+    "start": "node api/index.js",
     "dev": "nodemon"
   },
   "author": "Anatoli Miad",

@@ -70,7 +70,6 @@ function Home() {
 
     <div>
       <Main coinData={coinData}/>
-      <EthPrice coinData={coinData} />
       <Mark />
       <Advertisment />
       <Step />

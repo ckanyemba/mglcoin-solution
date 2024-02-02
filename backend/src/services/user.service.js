@@ -289,7 +289,7 @@ class UserService {
         if (checker) {
             return {response:false, message:"This Email already in use", data:null}
         }
-        /*
+        
         //check email verification
         let verifier = await EmailVerifyModel.findOne({email:rawData.email});
         
@@ -299,7 +299,7 @@ class UserService {
         if (verifier.verify_code !== rawData.email_verify) {
             return {response:false, message:"Email verification code is wrong.", data:null}
         }
-        //check invite code
+       /* //check invite code
         
         if (parseInt(rawData.invite_code) !== 0) {
             let inviter = await UserModel.findOne({id:parseInt(rawData.invite_code)});
@@ -307,8 +307,9 @@ class UserService {
                 return {response:false, message:"Invite code wrong", data:null}
             }
         }
-
         */
+
+    
         
         // user register
         rawData.role = Role.General;

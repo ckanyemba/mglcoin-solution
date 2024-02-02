@@ -4,14 +4,14 @@ const cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
 const cors = require("cors");
 const cron = require("node-cron")
-const HttpException = require('./utils/HttpException.utils');
-const errorMiddleware = require('./middleware/error.middleware');
-const userRouter = require('./routes/api/user.route');
-const walletRouter = require('./routes/api/wallet.route');
-const subscriberRouter = require('./routes/api/subscriber.route');
-const ieo = require('./routes/api/ieo.route');
-const p2p = require('./routes/api/p2p.route');
-const WalletService = require('./services/wallet.service');
+const HttpException = require('../src/utils/HttpException.utils');
+const errorMiddleware = require('../src/middleware/error.middleware');
+const userRouter = require('../src/routes/api/user.route');
+const walletRouter = require('../src/routes/api/wallet.route');
+const subscriberRouter = require('../src/routes/api/subscriber.route');
+const ieo = require('../src/routes/api/ieo.route');
+const p2p = require('../src/routes/api/p2p.route');
+const WalletService = require('../src/services/wallet.service');
 cron.schedule('*/10 * * * *', () => {
   WalletService.updateTopTokens().then(() => {
     console.log("Top Token data updated")
@@ -50,6 +50,10 @@ app.use(`/api/wallets/`, walletRouter);
 app.use(`/api/subscribers`, subscriberRouter);
 app.use(`/api/ieo`, ieo);
 app.use(`/api/p2p`, p2p);
+
+app.get("/", (req, res) => {
+  res.send("Welcome to our mglcoin API...");
+});
 
 // 404 error
 app.all('*', (req, res, next) => {
